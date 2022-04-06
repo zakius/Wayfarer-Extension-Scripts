@@ -91,7 +91,7 @@ def run():
   target = Path('../build')
   target.mkdir(parents=True,exist_ok = True)
   
-  all_files = source.glob('**/*.js')
+  all_files = list(source.glob('**/*.js'))
   for filename in all_files:
     print('process file {} {}'.format(filename,target))
     process_file(

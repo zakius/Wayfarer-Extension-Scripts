@@ -3,6 +3,7 @@
 
 import argparse
 import configparser
+import re
 from pathlib import Path
 
 def readtext(filename):
@@ -31,19 +32,23 @@ def fill_meta(source, script_name):
       elif text == '==/UserScript==':
         # raise UserWarning(f'{script_name}: wrong metablock detected')
         continue
-      else:
-        if key[0] == '@':
-          key = key[1:]
-        else:  # continue previous line
-          meta[-1] += ' ' + text
-          continue
+    else:
+      if key[0] == '@':
+        key = key[1:]
+      else:  # continue previous line
+        meta[-1] += ' ' + text
+        continue
 
-    keys.add(key)
-    if key == 'version':
-      if not re.match(r'^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$', value):
-        print(f'{script_name}: wrong version format: {value}')  # expected: major.minor.patch
+      keys.add(key)
+      if key == 'version':
+        if not re.match(r'^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$', value):
+          print(f'{script_name}: wrong version format: {value}')  # expected: major.minor.patch
       elif key == 'name':
-        line = line.replace(value, 'WFES - ' + value)
+          sname = value 
+          line = line.replace(value, 'WFES - ' + value)
+      elif key == 'description':
+        sdescription = value 
+
     meta.append(line)
 
   append_line('namespace', cfg['namespace'])
@@ -55,13 +60,16 @@ def fill_meta(source, script_name):
     path = '/'.join(path)
     append_line('updateURL', path + '.meta.js')
     append_line('downloadURL', path + '.user.js')
+    surl = path + '.user.js'
 
   if keys.isdisjoint({'match', 'include'}):
     append_line('match', cfg['match'])
 
   append_line('grant', 'none')
   meta.append('// ==/UserScript==\n')
-  return '\n'.join(meta)
+  
+  sl = '  * [{}]({})\n    - {}\n'.format(sname,surl,sdescription)
+  return '\n'.join(meta), sl
 
 def process_file(source, out_dir):
   """Generate .user.js and .meta.js from given source file.
@@ -75,7 +83,7 @@ def process_file(source, out_dir):
 
   script_name = source.stem
   
-  meta = fill_meta(meta, script_name)
+  meta, shortl = fill_meta(meta, script_name)
   
   data = [
     meta,
@@ -84,6 +92,7 @@ def process_file(source, out_dir):
 
   (out_dir / (script_name + '.user.js')).write_text(''.join(data), encoding='utf8')
   (out_dir / (script_name + '.meta.js')).write_text(meta, encoding='utf8')
+  return shortl
 
 def run():
   source = Path('..')
@@ -97,13 +106,21 @@ def run():
     file.link_to(tf)
     
   # process js files
+  shortlist = []
+  shortlist.append('#Wayfarer Scripts\n##shortlist\n')
+  shortlist.append('created automatically\n\n')
+  
   all_files = list(source.glob('**/*.js'))
   for filename in all_files:
     print('process file {} {}'.format(filename,target))
-    process_file(
+    short = process_file(
       filename,
       target
       )
+    shortlist.append(short)
+
+  shortdest = target / 'shortlist.md'
+  shortdest.write_text(''.join(shortlist), encoding='utf8')
 
 ##### MAIN ######
 

@@ -109,7 +109,7 @@ def run():
     
   # process js files
   shortlist = []
-  shortlist.append('#Wayfarer Scripts\n\n##shortlist\n\n')
+  shortlist.append('##shortlist\n\n')
   shortlist.append('created automatically\n\n')
   
   all_files = list(source.glob('**/*.js'))

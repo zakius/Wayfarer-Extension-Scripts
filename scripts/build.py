@@ -4,7 +4,6 @@
 import argparse
 import configparser
 from pathlib import Path
-from pprint import pprint
 
 def readtext(filename):
   return filename.read_text(encoding='utf-8-sig')

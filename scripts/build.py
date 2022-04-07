@@ -89,7 +89,14 @@ def run():
   source = Path('..')
   target = Path('../build')
   target.mkdir(parents=True,exist_ok = True)
-  
+  # copy md files
+  all_files = source.glob('*.md')
+  for file in all_files:
+    print('process file {} {}'.format(file,target))
+    tf = target / file.name
+    file.link_to(tf)
+    
+  # process js files
   all_files = list(source.glob('**/*.js'))
   for filename in all_files:
     print('process file {} {}'.format(filename,target))

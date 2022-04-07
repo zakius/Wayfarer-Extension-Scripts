@@ -65,6 +65,8 @@ def fill_meta(source, script_name):
   if keys.isdisjoint({'match', 'include'}):
     append_line('match', cfg['match'])
 
+  append_line('icon', 'https://wayfarer.nianticlabs.com/imgpub/favicon-256.png')
+  append_line('supportURL', 'https://github.com/AlterTobi/WFES/issues')
   append_line('grant', 'none')
   meta.append('// ==/UserScript==\n')
   

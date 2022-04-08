@@ -48,6 +48,8 @@ def fill_meta(source, script_name):
           line = line.replace(value, 'WFES - ' + value)
       elif key == 'description':
         sdescription = value 
+      elif key == 'version':
+        sversion = value 
 
     meta.append(line)
 
@@ -70,7 +72,7 @@ def fill_meta(source, script_name):
   append_line('grant', 'none')
   meta.append('// ==/UserScript==\n')
   
-  sl = '  * [{}]({})\n    - {}\n'.format(sname,surl,sdescription)
+  sl = '  * [{}]({}) {}\n    - {}\n'.format(sname,surl,sversion,sdescription)
   return '\n'.join(meta), sl
 
 def process_file(source, out_dir):
@@ -111,6 +113,7 @@ def run():
   shortlist = []
   shortlist.append('## shortlist\n\n')
   shortlist.append('created automatically\n\n')
+  shortlist.append('Not all scripts on this page are fully functional. This list is for reference only. Use at your own risk.\n\n')
   
   all_files = list(source.glob('**/*.js'))
   for filename in all_files:

@@ -56,9 +56,7 @@ def fill_meta(source, script_name):
 
   url_dist_base = cfg.get('url_dist_base',fallback = False)
   if url_dist_base:
-    path = [url_dist_base]
-    path.append(script_name)
-    path = '/'.join(path)
+    path = url_dist_base + script_name
     append_line('updateURL', path + '.meta.js')
     append_line('downloadURL', path + '.user.js')
     surl = path + '.user.js'

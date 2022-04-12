@@ -39,7 +39,6 @@ def fill_meta(source, script_name):
         meta[-1] += ' ' + text
         continue
 
-      keys.add(key)
       if key == 'version':
         sversion = value
         if not re.match(r'^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$', value):
@@ -50,7 +49,7 @@ def fill_meta(source, script_name):
       elif key == 'description':
         sdescription = value 
 
-    meta.append(line)
+      append_line(key,value)
 
   append_line('namespace', cfg['namespace'])
 

@@ -45,7 +45,7 @@ def fill_meta(source, script_name):
           print(f'{script_name}: wrong version format: {value}')  # expected: major.minor.patch
       elif key == 'name':
           sname = value 
-          line = line.replace(value, 'WFES - ' + value)
+          value = 'WFES - ' + value)
       elif key == 'description':
         sdescription = value 
 

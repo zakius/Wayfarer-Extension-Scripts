@@ -101,10 +101,11 @@ def run():
   source = Path('..')
   target = Path('../build')
   target.mkdir(parents=True,exist_ok = True)
-  # copy md files
-  all_files = source.glob('*.md')
+  
+  # copy all from _pages
+  all_files = source.glob('_pages/*')
   for file in all_files:
-    print('process file {} {}'.format(file,target))
+    print('process static file: {}'.format(file))
     tf = target / file.name
     file.link_to(tf)
     

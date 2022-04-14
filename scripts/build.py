@@ -39,26 +39,23 @@ def fill_meta(source, script_name):
         meta[-1] += ' ' + text
         continue
 
-      keys.add(key)
       if key == 'version':
         sversion = value
         if not re.match(r'^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$', value):
           print(f'{script_name}: wrong version format: {value}')  # expected: major.minor.patch
       elif key == 'name':
           sname = value 
-          line = line.replace(value, 'WFES - ' + value)
+          value = 'WFES - ' + value
       elif key == 'description':
         sdescription = value 
 
-    meta.append(line)
+      append_line(key,value)
 
   append_line('namespace', cfg['namespace'])
 
   url_dist_base = cfg.get('url_dist_base',fallback = False)
   if url_dist_base:
-    path = [url_dist_base]
-    path.append(script_name)
-    path = '/'.join(path)
+    path = url_dist_base + script_name
     append_line('updateURL', path + '.meta.js')
     append_line('downloadURL', path + '.user.js')
     surl = path + '.user.js'

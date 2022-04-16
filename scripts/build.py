@@ -52,19 +52,19 @@ def fill_meta(source, script_name):
       append_line(key,value)
 
   append_line('namespace', cfg['namespace'])
+  append_line('supportURL', cfg['supportURL'])
+  append_line('icon', 'https://wayfarer.nianticlabs.com/imgpub/favicon-256.png')
 
   url_dist_base = cfg.get('url_dist_base',fallback = False)
   if url_dist_base:
     path = url_dist_base + script_name
-    append_line('updateURL', path + '.meta.js')
     append_line('downloadURL', path + '.user.js')
+    append_line('updateURL', path + '.meta.js')
     surl = path + '.user.js'
 
   if keys.isdisjoint({'match', 'include'}):
     append_line('match', cfg['match'])
 
-  append_line('icon', 'https://wayfarer.nianticlabs.com/imgpub/favicon-256.png')
-  append_line('supportURL', 'https://github.com/AlterTobi/WFES/issues')
   append_line('grant', 'none')
   meta.append('// ==/UserScript==\n')
   

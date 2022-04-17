@@ -67,7 +67,7 @@ def fill_meta(source, script_name):
     append_line('match', cfg['match'])
 
   append_line('grant', 'none')
-  meta.append('// ==/UserScript==\n')
+  meta.append('// ==/UserScript==\n\n')
   
   sl = '  * [{}]({}) {}\n    - {}\n'.format(sname,surl,sversion,sdescription)
   return '\n'.join(meta), sl
@@ -95,12 +95,9 @@ def process_file(source, out_dir):
   (out_dir / (script_name + '.meta.js')).write_text(meta, encoding='utf8')
   return shortl
 
-def run(dev):
+def run():
   source = Path('..')
-  if dev:
-    target = Path('../build/dev')
-  else:
-    target = Path('../build')
+  target = Path('../build')
 
   target.mkdir(parents=True,exist_ok = True)
   
@@ -134,10 +131,9 @@ def run(dev):
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('--config_file', '-c', help='config file', default='build.ini')
-  parser.add_argument('--dev', '-d', help='use dev path', action='store_true')
   args = parser.parse_args()
   
   config = configparser.ConfigParser()
   config.read(args.config_file)
   cfg = config['defaults']
-  run(args.dev)
+  run()

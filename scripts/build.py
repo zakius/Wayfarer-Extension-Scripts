@@ -113,7 +113,7 @@ def run():
   shortlist.append('created automatically\n\n')
   shortlist.append('Not all scripts on this page are fully functional. This list is for reference only. Use at your own risk.\n\n')
   
-  all_files = list(source.glob('**/*.js'))
+  all_files = list(source.glob('**/wfes*.js'))
   for filename in all_files:
     print('process file {} {}'.format(filename,target))
     short = process_file(

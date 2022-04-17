@@ -100,7 +100,7 @@ def run(dev):
   if dev:
     target = Path('../build/dev')
   else:
-  target = Path('../build')
+    target = Path('../build')
 
   target.mkdir(parents=True,exist_ok = True)
   

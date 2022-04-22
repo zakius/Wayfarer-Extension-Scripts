@@ -107,6 +107,11 @@ def run():
     print('process static file: {}'.format(file))
     tf = target / file.name
     file.link_to(tf)
+
+  # copy LICENSE
+  lic = source / 'LICENSE'
+  tf = target / lic.name
+  lic.link_to(tf)
     
   # process js files
   shortlist = []

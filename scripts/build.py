@@ -122,9 +122,11 @@ def run():
   # check if beta (issue or feature)
   ref = re.match('refs/heads/(\w+)(/[\w#]+)?',environ['GITHUB_REF'])
   if ref:
-    if (ref.group(1) == 'issue') | (ref.group(1) == 'feature'):
-      name_or_number = ref.group(2)[1:] # no slash
-      extra_version = '.beta'+environ['GITHUB_RUN_NUMBER']+'.'+ ref.group(1) + name_or_number
+    name_or_number = ref.group(2)[1:] # no slash
+    if ref.group(1) == 'issue':
+      extra_version = '.beta'+environ['GITHUB_RUN_NUMBER']+'.issue' + name_or_number
+    elif ref.group(1) == 'feature':
+      extra_version = '.beta'+environ['GITHUB_RUN_NUMBER']+'.feature-' + name_or_number
   
   # process js files
   shortlist = []

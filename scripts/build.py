@@ -109,6 +109,7 @@ def run():
     file.link_to(tf)
 
   # copy LICENSE
+  print('process LICENSE:')
   lic = source / 'LICENSE'
   tf = target / lic.name
   lic.link_to(tf)

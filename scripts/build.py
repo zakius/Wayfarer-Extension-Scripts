@@ -120,7 +120,7 @@ def run():
   lic.link_to(tf)
 
   # check if beta
-  ref = re.match('ref/head/(\w+)(/[\w#]+)?',environ['GITHUB_REF'])
+  ref = re.match('refs/heads/(\w+)(/[\w#]+)?',environ['GITHUB_REF'])
   if ref:
     if ref.group(1) == 'issue':
       # no slash

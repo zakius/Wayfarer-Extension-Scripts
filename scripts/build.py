@@ -5,6 +5,9 @@ import argparse
 import configparser
 import re
 from pathlib import Path
+from os import environ
+
+extra_version = ''
 
 def readtext(filename):
   return filename.read_text(encoding='utf-8-sig')
@@ -40,6 +43,7 @@ def fill_meta(source, script_name):
         continue
 
       if key == 'version':
+        value += extra_version
         sversion = value
         if not re.match(r'^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$', value):
           print(f'{script_name}: wrong version format: {value}')  # expected: major.minor.patch
@@ -96,6 +100,7 @@ def process_file(source, out_dir):
   return shortl
 
 def run():
+  global extra_version
   source = Path('..')
   target = Path('../build')
 
@@ -109,11 +114,19 @@ def run():
     file.link_to(tf)
 
   # copy LICENSE
-  print('process LICENSE:')
+  print('process LICENSE')
   lic = source / 'LICENSE'
   tf = target / lic.name
   lic.link_to(tf)
-    
+
+  # check if beta
+  ref = re.match('ref/head/(\w+)(/[\w#]+)?',environ['GITHUB_REF'])
+  if ref:
+    if ref.group(1) == 'issue':
+      # no slash
+      issue = ref.group(2)[1:]
+      extra_version = 'issue' + issue  
+  
   # process js files
   shortlist = []
   shortlist.append('## shortlist\n\n')

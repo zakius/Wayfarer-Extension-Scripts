@@ -125,7 +125,7 @@ def run():
     if ref.group(1) == 'issue':
       extra_version = '.beta'+environ['GITHUB_RUN_NUMBER']+'.issue' + ref.group(2)[2:]
     elif (ref.group(1) == 'feature')|(ref.group(1) == 'hotfix'):
-      extra_version = '.beta'+environ['GITHUB_RUN_NUMBER']+'.' + ref.group(1) + '-' + ref.group(2)[1:]
+      extra_version = '.beta'+environ['GITHUB_RUN_NUMBER']+'.' + ref.group(1) + '.' + ref.group(2)[1:]
   
   # process js files
   shortlist = []

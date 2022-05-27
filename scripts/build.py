@@ -116,7 +116,8 @@ def run():
   # copy LICENSE
   print('process LICENSE')
   lic = source / 'LICENSE'
-  tf = target / lic.name
+  # tf = target / lic.name
+  tf = target / 'LICENSE.txt'
   lic.link_to(tf)
 
   # check if beta (issue, hotfix, feature)

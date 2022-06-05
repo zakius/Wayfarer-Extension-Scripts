@@ -19,6 +19,7 @@ def fill_meta(source, script_name):
   def append_line(key, value):
     if key not in keys:
       meta.append(f'// @{key:<14} {value}')
+      keys.add(key)
 
   for line in source.splitlines():
     text = line.lstrip()
@@ -42,7 +43,6 @@ def fill_meta(source, script_name):
         meta[-1] += ' ' + text
         continue
 
-      keys.add(key)
       if key == 'version':
         value += extra_version
         sversion = value
@@ -64,9 +64,10 @@ def fill_meta(source, script_name):
   url_dist_base = cfg.get('url_dist_base',fallback = False)
   if url_dist_base:
     path = url_dist_base + script_name
-    append_line('downloadURL', path + '.user.js')
-    append_line('updateURL', path + '.meta.js')
     surl = path + '.user.js'
+    if keys.isdisjoint({'downloadURL'}):
+      append_line('downloadURL', path + '.user.js')
+      append_line('updateURL', path + '.meta.js')
 
   if keys.isdisjoint({'match', 'include'}):
     append_line('match', cfg['match'])

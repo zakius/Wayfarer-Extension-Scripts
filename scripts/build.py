@@ -42,6 +42,7 @@ def fill_meta(source, script_name):
         meta[-1] += ' ' + text
         continue
 
+      keys.add(key)
       if key == 'version':
         value += extra_version
         sversion = value
